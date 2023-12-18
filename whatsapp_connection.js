@@ -3,9 +3,9 @@ console.log("App is booting up")
 const qrcode = require('qrcode-terminal');
 const { ClientConstructor } = require('./client_constructor.js');
 const { MessageTypes } = require("whatsapp-web.js");
-const { fetchWebsiteText } = require('./website.js');
+//const { fetchWebsiteText } = require('./website.js');
 const { checkForLinkInMessage } = require('./message.js');
-const { summarizeVoiceMessage, transcribeVoiceMessage ,summarizeTextMessage } = require("./summarize.js")
+//const { summarizeVoiceMessage, transcribeVoiceMessage ,summarizeTextMessage } = require("./summarize.js")
 
 
 
@@ -35,121 +35,32 @@ client.on('message_create', async message => {
     switch (command) {
         case "!p":
         case "!ping":
-        {
-            await message.reply("pong");
-            return;
-        }
-        case "!summarize":
-        case "!s": {
-            
-            console.log(`Handling command message ${JSON.stringify(message)} with given parameters: ` + params)
-
-            const quoted = await message.getQuotedMessage();
-            if (!quoted) {
-                message.reply("Summarize needs a quoted message...")
+            {
+                await message.reply("pong");
+                await sendWelcome('Deepesh Agarwal', '+919829235735')
                 return;
             }
 
-            if (quoted.type === MessageTypes.AUDIO || quoted.type === MessageTypes.VOICE) {
-                await summarizeVoice(quoted)
-            }
-            else if (quoted.type === MessageTypes.TEXT) {
-                
-                await summarizeText(quoted,params)
-            }
-            else {
-                console.warn(`Cannot handle message type ${quoted.type}`)
-            }
-            return;
-        }
-        case "!t":
-        case "!transcribe":{
-            console.log(`Handling command message ${JSON.stringify(message)} with given parameters: ` + params)
-
-            const quoted = await message.getQuotedMessage();
-            if (!quoted) {
-                message.reply("Summarize needs a quoted message...")
-                return;
-            }
-            if (quoted.type === MessageTypes.TEXT) {
-                message.reply("Transcribing a text message does not really make sense, does it?");
-                return;
-            }
-
-            if (quoted.type === MessageTypes.AUDIO || quoted.type === MessageTypes.VOICE) {
-                await transcribeVoice(quoted)
-            }
-        }
     }
 })
 
-const transcribeVoice = async function(message){
-    console.log("Transcribing voice message...")
 
-    if (!message.hasMedia) {
-        console.error("Voice message does not have media, this is unexpected")
-        return;
-    }
 
-    const media = await message.downloadMedia();
 
-    if (!media) {
-        console.error("Voice message could not be downloaded");
-        return;
-    }
-    const logMessage = `Media information:\n  Filename: ${media.filename}\n  Type: ${media.mimetype}\n  Size: ${media.filesize}`;
-    console.log(logMessage);
+async function sendWelcome(name, phoneNumber) {
+    const message = `Dear ${name}, Thank you for your stay. Pls. Dial *'110'* for kitchen and *'9'* for Reception, you can also call *8881088844*. To access FREE WiFi service pls. connect to 'Hotel Agroha' with password - agroha123. We strictly prohibit any illegal activity in our premises like Gambling.`;
 
-    const data_buffer = Buffer.from(media.data, 'base64')
-    const data_blob = new Blob([data_buffer])
-    const transcription = await transcribeVoiceMessage(data_blob, media.mimetype)
+    const chatId = `${phoneNumber}@c.us`;
 
-    message.reply(`Transcription: \n\n${transcription}`)
-}
-
-const summarizeVoice = async function(message) {
-    console.log("Summarizing voice message...")
-
-    if (!message.hasMedia) {
-        console.error("Voice message does not have media, this is unexpected")
-        return;
-    }
-
-    const media = await message.downloadMedia();
-
-    if (!media) {
-        console.error("Voice message could not be downloaded");
-        return;
-    }
-
-    const logMessage = `Media information:\n  Filename: ${media.filename}\n  Type: ${media.mimetype}\n  Size: ${media.filesize}`;
-    console.log(logMessage);
-
-    const data_buffer = Buffer.from(media.data, 'base64')
-    const data_blob = new Blob([data_buffer])
-    const summary = await summarizeVoiceMessage(data_blob, media.mimetype)
-    message.reply(`Summary:\n\n${summary}`)
-}
-
-const summarizeText = async function(message,parameter) {
-    console.log("Summarizing text message...")
-    let summarizeMessage = message.body;
-    let forceParameter = !!(typeof parameter === 'object' && Array.isArray(parameter) && parameter.includes('f'));
-    
-    let link = await checkForLinkInMessage(summarizeMessage, forceParameter);
-    if ( link != null)
-    {
-        console.log("Detected http(s) link which is not the main content of the message, scanning link...")
-        let bodyOfWebsite = await fetchWebsiteText(link)
-        console.log ("Fetched body: \n" + bodyOfWebsite);
-        // summarizeMessage = bodyOfWebsite;
-    }
-    const summary = await summarizeTextMessage(summarizeMessage)
-
-    if (summary === undefined)
-        message.reply('Bot encountered an error. Please check your logs.');
-    else
-        message.reply(`Summary:\n\n${summary}`)
+    client.sendMessage(chatId, message)
+        .then(response => {
+            if (response.id.fromMe) {
+                console.log(`Message successfully sent to ${name}`);
+            }
+        })
+        .catch(err => {
+            console.error(`Failed to send message: ${err}`);
+        });
 }
 
 client.initialize();
