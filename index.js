@@ -70,11 +70,7 @@ async function sendWelcome(name, phoneNumber) {
 
 client.initialize();
 
-// Choose the port you want to listen on
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+client.on('ready', () => {
+    console.log('WhatsApp client is ready!');
+    app.listen(3000, () => console.log('Server running on port 3000'));
 });
-
-
-client.initialize();
