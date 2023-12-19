@@ -7,7 +7,7 @@ const { ClientConstructor } = require('./client_constructor.js');
 const { MessageTypes } = require("whatsapp-web.js");
 const { checkForLinkInMessage } = require('./message.js');
 
-ClientConstructor.getHeadlessClient();
+const client = ClientConstructor.getHeadlessClient();
 
 
 // Express server for handling '/sendWelcome' path
