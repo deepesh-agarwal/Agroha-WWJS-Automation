@@ -9,6 +9,15 @@ const { checkForLinkInMessage } = require('./message.js');
 
 const client = ClientConstructor.getHeadlessClient();
 
+client.on('qr', qr => {
+    console.log("No saved auth data found. Booting up webservice... ");
+    qrcode.generate(qr, { small: true });
+});
+
+client.on('ready', () => {
+    console.log("Client is ready and listening.");
+    app.listen(3000, () => console.log('Server running on port 3000'));
+});
 
 // Express server for handling '/sendWelcome' path
 app.get('/sendWelcome', (req, res) => {
@@ -70,7 +79,3 @@ async function sendWelcome(name, phoneNumber) {
 
 client.initialize();
 
-client.on('ready', () => {
-    console.log('WhatsApp client is ready!');
-    app.listen(3000, () => console.log('Server running on port 3000'));
-});
