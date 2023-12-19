@@ -37,7 +37,7 @@ client.on('message_create', async message => {
         case "!ping":
             {
                 await message.reply("pong");
-                await sendWelcome('Deepesh Agarwal', '+919829235735')
+                await sendWelcome('Deepesh Agarwal', '9829235735')
                 return;
             }
 
