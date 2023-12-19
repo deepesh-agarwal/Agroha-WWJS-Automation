@@ -43,6 +43,7 @@ app.get('/sendBonfire', (req, res) => {
     
     if (name && phoneNumber) {
         sendBonfire(name, phoneNumber,'https://www.mosquitomagnet.com/media/Articles/Mosquito-Magnet/Dont-Fear-the-Fire.jpg');
+        res.send(`Bonfire message sent to ${name}`);
     } else {
         res.status(400).send('Missing name or phoneNumber query parameters');
     }
