@@ -27,6 +27,18 @@ app.get('/sendWelcome', (req, res) => {
     }
 });
 
+// Express server for handling '/sendWelcome' path
+app.get('/sendBonfire', (req, res) => {
+sendWelcome(name, phoneNumber)
+            .then(() => {
+                res.send(`Welcome message sent to ${name}`);
+            })
+            .catch(err => {
+                res.status(500).send(`Error sending message: ${err}`);
+            });
+
+});
+
 async function sendWelcome(name, phoneNumber) {
     const message = `Dear ${name}, Thank you for your stay. Pls. Dial *'110'* for kitchen and *'9'* for Reception, you can also call *8881088844*. To access FREE WiFi service pls. connect to 'Hotel Agroha' with password - agroha123. We strictly prohibit any illegal activity in our premises like Gambling.`;
     const chatId = `${phoneNumber}@c.us`;
