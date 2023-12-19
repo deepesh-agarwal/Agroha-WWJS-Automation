@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const qrcode = require('qrcode-terminal');
 const { ClientConstructor } = require('./client_constructor.js');
-const { MessageTypes } = require("whatsapp-web.js");
+const { MessageTypes, MessageMedia } = require("whatsapp-web.js");
 const { checkForLinkInMessage } = require('./message.js');
 
 const client = ClientConstructor.getHeadlessClient();
@@ -44,8 +44,8 @@ async function sendBonfire(name, phoneNumber,imageUrl) {
     
         try {
         // Create a MessageMedia instance from the URL
-        const media = await client.fromUrl(imageUrl);
-
+        const media = await MessageMedia.fromUrl(imageUrl);
+            
         // Send the image to the specified number
         client.sendMessage(`${phoneNumber}@c.us`, media, { caption: '`Hello ${name}, we offer Bonfire at dinner for just Rs.600/- !' });
     } catch (error) {
