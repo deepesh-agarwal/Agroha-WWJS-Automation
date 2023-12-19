@@ -1,0 +1,75 @@
+# Use Ubuntu 20.04 as the base image
+FROM ubuntu:latest
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+
+
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    curl \
+    gnupg \
+    git \
+    chromium-browser
+
+
+
+# Add NodeSource signing key & repository
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+
+# Install Node.js
+RUN apt-get update && apt-get install -y nodejs
+
+# Clone the specific GitHub repository
+RUN git clone https://github.com/deepesh-agarwal/Agroha-WWJS-Automation.git
+# Change directory to the cloned repository and install npm dependencies
+WORKDIR /usr/src/app/Agroha-WWJS-Automation
+RUN npm install
+
+# Install additional dependencies required for the application
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    gconf-service \
+    libgbm-dev \
+    libasound2 \
+    libatk1.0-0 \
+    libc6 \
+    libcairo2 \
+    libcups2 \
+    libdbus-1-3 \
+    libexpat1 \
+    libfontconfig1 \
+    libgcc1 \
+    libgconf-2-4 \
+    libgdk-pixbuf2.0-0 \
+    libglib2.0-0 \
+    libgtk-3-0 \
+    libnspr4 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libstdc++6 \
+    libx11-6 \
+    libx11-xcb1 \
+    libxcb1 \
+    libxcomposite1 \
+    libxcursor1 \
+    libxdamage1 \
+    libxext6 \
+    libxfixes3 \
+    libxi6 \
+    libxrandr2 \
+    libxrender1 \
+    libxss1 \
+    libxtst6 \
+    ca-certificates \
+    fonts-liberation \
+    libappindicator1 \
+    libnss3 \
+    lsb-release \
+    xdg-utils \
+    wget
+
+# Expose port 3000
+EXPOSE 3000
