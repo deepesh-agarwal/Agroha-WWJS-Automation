@@ -27,10 +27,10 @@ app.get('/sendWelcome', (req, res) => {
     }
 });
 
-// Express server for handling '/sendWelcome' path
+// Express server path
 app.get('/sendBonfire', (req, res) => {
 
-        const { name, phoneNumber } = req.query;
+    const { name, phoneNumber } = req.query;
     
     if (name && phoneNumber) {
         sendBonfire(name, phoneNumber,'https://www.mosquitomagnet.com/media/Articles/Mosquito-Magnet/Dont-Fear-the-Fire.jpg');
@@ -41,10 +41,10 @@ app.get('/sendBonfire', (req, res) => {
 });
 
 async function sendBonfire(name, phoneNumber,imageUrl) {
-    const media = await MessageMedia.fromUrl('https://via.placeholder.com/350x150.png');
+    
         try {
         // Create a MessageMedia instance from the URL
-        const media = await MessageMedia.fromUrl(imageUrl);
+        const media = await client.fromUrl(imageUrl);
 
         // Send the image to the specified number
         client.sendMessage(`${phoneNumber}@c.us`, media, { caption: '`Hello ${name}, we offer Bonfire at dinner for just Rs.600/- !' });
