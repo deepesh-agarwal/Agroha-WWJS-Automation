@@ -56,7 +56,7 @@ async function sendBonfire(name, phoneNumber,imageUrl) {
         const media = await MessageMedia.fromUrl(imageUrl);
             
         // Send the image to the specified number
-        client.sendMessage(`${phoneNumber}@c.us`, media, { caption: '`Hello ${name}, we offer Bonfire at dinner for just Rs.600/- !' });
+        client.sendMessage(`${phoneNumber}@c.us`, media, { caption: `Hello ${name}, we offer Bonfire at dinner for just Rs.600/- !` });    
     } catch (error) {
         console.error('Error sending image:', error);
     }
