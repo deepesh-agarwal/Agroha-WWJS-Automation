@@ -14,7 +14,7 @@ class ClientConstructor {
                 puppeteer: {
                     // TODO: Why does headless mean no sandbox?
                     args: ['--no-sandbox'],
-                    executablePath: '/usr/bin/google-chrome-stable',
+                    // executablePath: '/usr/bin/google-chrome-stable',
                 }
             }
         );
