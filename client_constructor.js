@@ -12,7 +12,7 @@ class ClientConstructor {
                     }
                 ),
                 puppeteer: {
-                   executablePath: '/usr/bin/chromium-browser', 
+                   executablePath: '/usr/bin/google-chrome-stable', 
                    args: ['--no-sandbox', '--disable-setuid-sandbox'], ignoreDefaultArgs: ['--disable-dev-shm-usage'], ignoreHTTPSErrors: true
                 }
             }
