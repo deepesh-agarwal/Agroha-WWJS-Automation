@@ -54,18 +54,19 @@ async function sendBonfire(name, phoneNumber,imageUrl) {
     
         try {
         // Create a MessageMedia instance from the URL
-        const media = await MessageMedia.fromUrl(imageUrl);
+        //const media = await MessageMedia.fromUrl(imageUrl);
+            const media = await MessageMedia.fromFilePath('./img/bonfire.mov');
             
-        // Send the image to the specified number
-        client.sendMessage(`${phoneNumber}@c.us`, media, { caption: `Hello ${name}, we offer Bonfire at dinner for just Rs.600/- !` });    
+        // Send the video to the specified number
+        client.sendMessage(`${phoneNumber}@c.us`, media, { caption: `Hello ${name} ji, dont forget to ask for Bonfire at dinner for an unforgettable experience.` });    
     } catch (error) {
-        console.error('Error sending image:', error);
+        console.error('Error sending video:', error);
     }
  
 }
 
 async function sendWelcome(name, phoneNumber) {
-    const message = `Dear ${name}, Thank you for your stay. Pls. Dial *'110'* for kitchen and *'9'* for Reception, you can also call *8881088844*. To access FREE WiFi service pls. connect to 'Hotel Agroha' with password - agroha123. We strictly prohibit any illegal activity in our premises like Gambling.`;
+    const message = `Dear ${name}, Thank you for your stay. Pls. Dial *'110'* for kitchen and *'9'* for Reception, you can also call *8881088844*. To access FREE WiFi service pls. connect to '*Hotel Agroha*' with password - *agroha123*. We strictly prohibit any illegal activity in our premises like Gambling.`;
     const chatId = `${phoneNumber}@c.us`;
     client.sendMessage(chatId, message)
         .then(response => {
