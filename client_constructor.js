@@ -12,8 +12,20 @@ class ClientConstructor {
                     }
                 ),
                 puppeteer: {
-                   executablePath: '/usr/bin/google-chrome-stable', 
-                   args: ['--no-sandbox', '--disable-setuid-sandbox'], ignoreDefaultArgs: ['--disable-dev-shm-usage'], ignoreHTTPSErrors: true
+                    executablePath: '/usr/bin/google-chrome-stable',
+                    args: [
+                        '--no-sandbox',
+                        '--disable-setuid-sandbox',
+                        '--disable-dev-shm-usage',
+                        '--disable-accelerated-2d-canvas',
+                        '--no-first-run',
+                        '--no-zygote',
+                        '--single-process',
+                        '--disable-gpu'
+                    ],
+                    headless: true,
+                    ignoreDefaultArgs: ['--disable-dev-shm-usage'],
+                    ignoreHTTPSErrors: true
                 }
             }
         );
