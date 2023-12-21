@@ -12,9 +12,8 @@ class ClientConstructor {
                     }
                 ),
                 puppeteer: {
-                    // TODO: Why does headless mean no sandbox?
-                    args: ['--no-sandbox'],
-                    // executablePath: '/usr/bin/google-chrome-stable',
+                   executablePath: '/usr/bin/google-chrome-stable', 
+                   args: ['--no-sandbox', '--disable-setuid-sandbox'], ignoreDefaultArgs: ['--disable-dev-shm-usage'], ignoreHTTPSErrors: true
                 }
             }
         );
