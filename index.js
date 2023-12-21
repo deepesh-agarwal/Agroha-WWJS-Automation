@@ -66,7 +66,7 @@ async function sendBonfire(name, phoneNumber,imageUrl) {
 }
 
 async function sendWelcome(name, phoneNumber) {
-    const message = `Dear ${name}, Thank you for your stay. Pls. Dial *'110'* for kitchen and *'9'* for Reception, you can also call *8881088844*. To access FREE WiFi service pls. connect to '*Hotel Agroha*' with password - *agroha123*. We strictly prohibit any illegal activity in our premises like Gambling.`;
+    const message = `Dear ${name}, Thank you for your stay. Pls. Dial *'110'* for kitchen and *'9'* for Reception, you can also call *8881088844*. To access FREE WiFi service pls. connect to *Hotel Agroha* with password - *agroha123*. We strictly prohibit any illegal activity in our premises like Gambling.`;
     const chatId = `${phoneNumber}@c.us`;
     client.sendMessage(chatId, message)
         .then(response => {
