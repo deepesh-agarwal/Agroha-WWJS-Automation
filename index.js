@@ -55,7 +55,7 @@ async function sendBonfire(name, phoneNumber,imageUrl) {
         try {
         // Create a MessageMedia instance from the URL
         //const media = await MessageMedia.fromUrl(imageUrl);
-            const media = await MessageMedia.fromFilePath('./img/bonfire.mov');
+            const media = await MessageMedia.fromFilePath('./img/bonfire.mp4');
             
         // Send the video to the specified number
         client.sendMessage(`${phoneNumber}@c.us`, media, { caption: `Hello ${name} ji, dont forget to ask for Bonfire at dinner for an unforgettable experience.` });    
