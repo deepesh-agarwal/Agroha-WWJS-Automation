@@ -42,7 +42,7 @@ app.get('/sendBonfire', (req, res) => {
     const { name, phoneNumber } = req.query;
     
     if (name && phoneNumber) {
-        sendBonfire(name, phoneNumber,'https://www.mosquitomagnet.com/media/Articles/Mosquito-Magnet/Dont-Fear-the-Fire.jpg');
+        sendBonfire(name, phoneNumber);
         res.send(`Bonfire message sent to ${name}`);
     } else {
         res.status(400).send('Missing name or phoneNumber query parameters');
@@ -50,7 +50,7 @@ app.get('/sendBonfire', (req, res) => {
     
 });
 
-async function sendBonfire(name, phoneNumber,imageUrl) {
+async function sendBonfire(name, phoneNumber) {
     
         try {
         // Create a MessageMedia instance from the URL
@@ -77,6 +77,9 @@ async function sendWelcome(name, phoneNumber) {
         .catch(err => {
             console.error(`Failed to send message: ${err}`);
         });
+
+    //Send Bonfire Msg
+    sendBonfire(name, phoneNumber);
 }
 
 client.initialize();
