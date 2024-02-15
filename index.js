@@ -19,15 +19,10 @@ client.on('ready', () => {
     app.listen(3000, () => console.log('Server running on port 3000'));
 });
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-    res.status(200).send({ status: 'healthy' });
-});
-
 // Express server for handling '/sendWelcome' path
 app.get('/sendWelcome', (req, res) => {
     const { name, phoneNumber } = req.query;
-
+    
     if (name && phoneNumber) {
         sendWelcome(name, phoneNumber)
             .then(() => {
@@ -45,35 +40,33 @@ app.get('/sendWelcome', (req, res) => {
 app.get('/sendBonfire', (req, res) => {
 
     const { name, phoneNumber } = req.query;
-
+    
     if (name && phoneNumber) {
         sendBonfire(name, phoneNumber);
         res.send(`Bonfire message sent to ${name}`);
     } else {
         res.status(400).send('Missing name or phoneNumber query parameters');
     }
-
+    
 });
 
 app.get('/sendImages', (req, res) => {
 
     const { name, phoneNumber } = req.query;
-
+    
     if (name && phoneNumber) {
         sendImagesAll(name, phoneNumber);
         res.send(`All Images message sent to ${name}`);
     } else {
         res.status(400).send('Missing name or phoneNumber query parameters');
     }
-
+    
 });
 
 async function sendImagesAll(name, phoneNumber) {
     // Define the file paths array
-    const filePaths = [
+        const filePaths = [
         './img/02a23617-89c7-4202-8b13-f04b60449e6b 2.JPG',
-        './img/101.MP4',
-        './img/103.MP4',
         './img/1f513b51-975a-4a60-913b-c2a6faf9ff5b 2.JPG',
         './img/2466cc7e-4eb1-47b4-b1fd-1076ed9965ef.JPG',
         './img/28977b47-4975-4f84-9511-e93fdaebe737.JPG',
@@ -92,7 +85,6 @@ async function sendImagesAll(name, phoneNumber) {
         './img/aebf3854-e12c-4613-a53a-88601713c8cd 2.JPG',
         './img/b4467330-02a3-48fa-81a5-31137ac1851e 2.JPG',
         './img/b798d033-ecd6-466a-9805-cc07be9f6e62 2.JPG',
-        './img/bonfire.mp4',
         './img/c6897eeb-2bbf-4306-84a9-90d50c50a34a 2.JPG',
         './img/cb953b06-7767-44e3-bdf3-cc0050afb469 2.JPG',
         './img/d599feb1-04f2-488d-bc97-bc781f5d65f9 2.JPG',
@@ -116,21 +108,35 @@ async function sendImagesAll(name, phoneNumber) {
         console.error('Error sending media:', error);
     }
 
+        try {
+            const media_101 = await MessageMedia.fromFilePath('./img/101.MP4');
+            const media_103 = await MessageMedia.fromFilePath('./img/103.MP4');
+            const media_bonfire = await MessageMedia.fromFilePath('./img/bonfire.mp4');
+
+            // Send videos with caption
+            client.sendMessage(`${phoneNumber}@c.us`, media_101, { caption: `Room 101 - Family Suite Deluxe` });
+            client.sendMessage(`${phoneNumber}@c.us`, media_103, { caption: `Room 103 - Family Suite Super Deluxe` });
+            client.sendMessage(`${phoneNumber}@c.us`, media_bonfire, { caption: `Experience Dinner with bonfire.` });  
+
+    } catch (error) {
+        console.error('Error sending videos:', error);
+    }
+ 
 }
 
 async function sendBonfire(name, phoneNumber) {
-
-    try {
+    
+        try {
         // Create a MessageMedia instance from the URL
         //const media = await MessageMedia.fromUrl(imageUrl);
-        const media = await MessageMedia.fromFilePath('./img/bonfire.mp4');
-
+            const media = await MessageMedia.fromFilePath('./img/bonfire.mp4');
+            
         // Send the video to the specified number
-        client.sendMessage(`${phoneNumber}@c.us`, media, { caption: `Hello ${name} ji, dont forget to ask for Bonfire at dinner for an unforgettable experience.` });
+        client.sendMessage(`${phoneNumber}@c.us`, media, { caption: `Hello ${name} ji, dont forget to ask for Bonfire at dinner for an unforgettable experience.` });    
     } catch (error) {
         console.error('Error sending video:', error);
     }
-
+ 
 }
 
 async function sendWelcome(name, phoneNumber) {
