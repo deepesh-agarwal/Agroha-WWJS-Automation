@@ -19,10 +19,15 @@ client.on('ready', () => {
     app.listen(3000, () => console.log('Server running on port 3000'));
 });
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.status(200).send({ status: 'healthy' });
+});
+
 // Express server for handling '/sendWelcome' path
 app.get('/sendWelcome', (req, res) => {
     const { name, phoneNumber } = req.query;
-    
+
     if (name && phoneNumber) {
         sendWelcome(name, phoneNumber)
             .then(() => {
@@ -40,32 +45,32 @@ app.get('/sendWelcome', (req, res) => {
 app.get('/sendBonfire', (req, res) => {
 
     const { name, phoneNumber } = req.query;
-    
+
     if (name && phoneNumber) {
         sendBonfire(name, phoneNumber);
         res.send(`Bonfire message sent to ${name}`);
     } else {
         res.status(400).send('Missing name or phoneNumber query parameters');
     }
-    
+
 });
 
 app.get('/sendImages', (req, res) => {
 
     const { name, phoneNumber } = req.query;
-    
+
     if (name && phoneNumber) {
         sendImagesAll(name, phoneNumber);
         res.send(`All Images message sent to ${name}`);
     } else {
         res.status(400).send('Missing name or phoneNumber query parameters');
     }
-    
+
 });
 
 async function sendImagesAll(name, phoneNumber) {
     // Define the file paths array
-        const filePaths = [
+    const filePaths = [
         './img/02a23617-89c7-4202-8b13-f04b60449e6b 2.JPG',
         './img/101.MP4',
         './img/103.MP4',
@@ -110,22 +115,22 @@ async function sendImagesAll(name, phoneNumber) {
     } catch (error) {
         console.error('Error sending media:', error);
     }
- 
+
 }
 
 async function sendBonfire(name, phoneNumber) {
-    
-        try {
+
+    try {
         // Create a MessageMedia instance from the URL
         //const media = await MessageMedia.fromUrl(imageUrl);
-            const media = await MessageMedia.fromFilePath('./img/bonfire.mp4');
-            
+        const media = await MessageMedia.fromFilePath('./img/bonfire.mp4');
+
         // Send the video to the specified number
-        client.sendMessage(`${phoneNumber}@c.us`, media, { caption: `Hello ${name} ji, dont forget to ask for Bonfire at dinner for an unforgettable experience.` });    
+        client.sendMessage(`${phoneNumber}@c.us`, media, { caption: `Hello ${name} ji, dont forget to ask for Bonfire at dinner for an unforgettable experience.` });
     } catch (error) {
         console.error('Error sending video:', error);
     }
- 
+
 }
 
 async function sendWelcome(name, phoneNumber) {
