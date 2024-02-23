@@ -187,11 +187,34 @@ function sanitizePhoneNumber(phoneNumber) {
 }
 
 function logError(error) {
-    const timestamp = new Date().toISOString();
-    const formattedError = `[${timestamp}] ${error.stack || error}\n`;
-    fs.appendFile('error.log', formattedError, err => {
-        if (err) console.error('Failed to write to log file:', err);
+    const errorLogPath = './error.log'; // Direct path specification without 'path' module
+    let now = new Date();
+
+    // Convert UTC to IST (UTC+5:30)
+    now = new Date(now.getTime() + (5 * 60 + 30) * 60000);
+
+    // Format the timestamp for readability: "DD-MM-YYYY HH:MM:SS"
+    const timestamp = [
+        padTo2Digits(now.getDate()),
+        padTo2Digits(now.getMonth() + 1),
+        now.getFullYear(),
+    ].join('-') + ' ' + [
+        padTo2Digits(now.getHours()),
+        padTo2Digits(now.getMinutes()),
+        padTo2Digits(now.getSeconds()),
+    ].join(':');
+
+    const errorMessage = `[${timestamp}] ${error.stack || error}\n`;
+
+    fs.appendFile(errorLogPath, errorMessage, (err) => {
+        if (err) {
+            console.error('Failed to write to error log:', err);
+        }
     });
+}
+
+function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
 }
 
 client.initialize();
