@@ -169,21 +169,23 @@ async function sendWelcome(name, phoneNumber) {
 }
 
 function sanitizePhoneNumber(phoneNumber) {
-    // Remove any character that is not a digit
-    let sanitized = phoneNumber.replace(/\D/g, '');
+    logError(`Input phone number format ${phoneNumber}`);
+    // Remove all non-numeric characters
+    let sanitizedNumber = phoneNumber.replace(/\D/g, '');
 
-    // Add country code if not present (assuming country code "1" for this example)
-    if (sanitized.length === 10) {
-        sanitized = '91' + sanitized; // Prepend the country code
+    // Check if the number starts with the country code, e.g., '91' for India
+    // If not, you might need to prepend it based on your requirements
+    if (!sanitizedNumber.startsWith('91')) {
+        sanitizedNumber = '91' + sanitizedNumber;
     }
 
-    // Check if the number is valid after sanitization
-    if (sanitized.length !== 11) {
-        logError(`Invalid phone number format ${phoneNumber}`);
-        throw new Error(`Invalid phone number format ${phoneNumber}`);
+    // Validate the length of the number after sanitization (e.g., 12 for Indian numbers including country code)
+    if (sanitizedNumber.length !== 12) {
+        throw new Error(`Invalid phone number format ${sanitizedNumber}`);
     }
 
-    return sanitized;
+    logError(`Output phone number format ${sanitizedNumber}`);
+    return sanitizedNumber;
 }
 
 function logError(error) {
