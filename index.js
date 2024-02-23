@@ -71,6 +71,8 @@ app.get('/sendImages', (req, res) => {
 });
 
 async function sendImagesAll(name, phoneNumber) {
+    phoneNumber = sanitizePhoneNumber(phoneNumber);
+
     // Define the file paths array
     const filePaths = [
         './img/02a23617-89c7-4202-8b13-f04b60449e6b 2.JPG',
@@ -164,6 +166,24 @@ async function sendWelcome(name, phoneNumber) {
 
     //Send Bonfire Msg
     sendBonfire(name, phoneNumber);
+}
+
+function sanitizePhoneNumber(phoneNumber) {
+    // Remove any character that is not a digit
+    let sanitized = phoneNumber.replace(/\D/g, '');
+
+    // Add country code if not present (assuming country code "1" for this example)
+    if (sanitized.length === 10) {
+        sanitized = '91' + sanitized; // Prepend the country code
+    }
+
+    // Check if the number is valid after sanitization
+    if (sanitized.length !== 11) {
+        logError(`Invalid phone number format ${phoneNumber}`);
+        throw new Error(`Invalid phone number format ${phoneNumber}`);
+    }
+
+    return sanitized;
 }
 
 function logError(error) {
