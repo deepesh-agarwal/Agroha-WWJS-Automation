@@ -1,5 +1,7 @@
+
 console.log("App is booting up")
 
+const fs = require('fs');
 const express = require('express');
 const app = express();
 const qrcode = require('qrcode-terminal');
@@ -110,6 +112,7 @@ async function sendImagesAll(name, phoneNumber) {
             await client.sendMessage(`${phoneNumber}@c.us`, media);
         }
     } catch (error) {
+        logError(error);
         console.error('Error sending media:', error);
     }
 
@@ -124,6 +127,7 @@ async function sendImagesAll(name, phoneNumber) {
         client.sendMessage(`${phoneNumber}@c.us`, media_bonfire, { caption: `Experience Dinner with bonfire.` });
 
     } catch (error) {
+        logError(error);
         console.error('Error sending videos:', error);
     }
 
@@ -139,6 +143,7 @@ async function sendBonfire(name, phoneNumber) {
         // Send the video to the specified number
         client.sendMessage(`${phoneNumber}@c.us`, media, { caption: `Hello ${name} ji, dont forget to ask for Bonfire at dinner for an unforgettable experience.` });
     } catch (error) {
+        logError(error);
         console.error('Error sending video:', error);
     }
 
@@ -159,6 +164,14 @@ async function sendWelcome(name, phoneNumber) {
 
     //Send Bonfire Msg
     sendBonfire(name, phoneNumber);
+}
+
+function logError(error) {
+    const timestamp = new Date().toISOString();
+    const formattedError = `[${timestamp}] ${error.stack || error}\n`;
+    fs.appendFile('error.log', formattedError, err => {
+        if (err) console.error('Failed to write to log file:', err);
+    });
 }
 
 client.initialize();
