@@ -1,5 +1,10 @@
 ﻿const { Client, LocalAuth } = require('whatsapp-web.js');
 
+
+
+const wwebVersion = '2.2407.3';
+
+
 class ClientConstructor {
     static getHeadlessClient() {
         console.log("Provided headless argument.")
@@ -26,7 +31,11 @@ class ClientConstructor {
                     headless: true,
                     ignoreDefaultArgs: ['--disable-dev-shm-usage'],
                     ignoreHTTPSErrors: true
-                }
+                },
+    webVersionCache: {
+        type: 'remote',
+        remotePath: `https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/${wwebVersion}.html`,
+    }
             }
         );
     }
