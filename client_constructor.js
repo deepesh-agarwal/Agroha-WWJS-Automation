@@ -2,7 +2,7 @@
 
 
 
-const wwebVersion = '2.2407.3';
+const wwebVersion = '2.3000.0';
 
 
 class ClientConstructor {
@@ -18,15 +18,23 @@ class ClientConstructor {
                 ),
                 puppeteer: {
                     executablePath: '/usr/bin/google-chrome-stable',
-                    args: [
-                        '--no-sandbox',
-                        '--disable-setuid-sandbox',
-                        '--disable-dev-shm-usage',
-                        '--disable-accelerated-2d-canvas',
-                        '--no-first-run',
-                        '--no-zygote',
-                        '--single-process',
-                        '--disable-gpu'
+                    args: ['--no-sandbox',
+    '--no-experiments',
+    '--hide-scrollbars',
+    '--disable-plugins',
+    '--disable-infobars',
+    '--disable-translate',
+    '--disable-pepper-3d',
+    '--disable-extensions',
+    '--disable-dev-shm-usage',
+    '--disable-notifications',
+    '--disable-setuid-sandbox',
+    '--disable-crash-reporter',
+    '--disable-smooth-scrolling',
+    '--disable-login-animations',
+    '--disable-dinosaur-easter-egg',
+    '--disable-accelerated-2d-canvas',
+    '--disable-rtc-smoothness-algorithm'
                     ],
                     headless: true,
                     ignoreDefaultArgs: ['--disable-dev-shm-usage'],
