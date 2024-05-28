@@ -19,31 +19,27 @@ class ClientConstructor {
                 puppeteer: {
                     executablePath: '/usr/bin/google-chrome-stable',
                     args: ['--no-sandbox',
-    '--no-experiments',
-    '--hide-scrollbars',
-    '--disable-plugins',
-    '--disable-infobars',
-    '--disable-translate',
-    '--disable-pepper-3d',
-    '--disable-extensions',
-    '--disable-dev-shm-usage',
-    '--disable-notifications',
-    '--disable-setuid-sandbox',
-    '--disable-crash-reporter',
-    '--disable-smooth-scrolling',
-    '--disable-login-animations',
-    '--disable-dinosaur-easter-egg',
-    '--disable-accelerated-2d-canvas',
-    '--disable-rtc-smoothness-algorithm'
+                        '--no-experiments',
+                        '--hide-scrollbars',
+                        '--disable-plugins',
+                        '--disable-infobars',
+                        '--disable-translate',
+                        '--disable-pepper-3d',
+                        '--disable-extensions',
+                        '--disable-dev-shm-usage',
+                        '--disable-notifications',
+                        '--disable-setuid-sandbox',
+                        '--disable-crash-reporter',
+                        '--disable-smooth-scrolling',
+                        '--disable-login-animations',
+                        '--disable-dinosaur-easter-egg',
+                        '--disable-accelerated-2d-canvas',
+                        '--disable-rtc-smoothness-algorithm'
                     ],
                     headless: true,
                     ignoreDefaultArgs: ['--disable-dev-shm-usage'],
                     ignoreHTTPSErrors: true
                 },
-    webVersionCache: {
-        type: 'remote',
-        remotePath: `https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/${wwebVersion}.html`,
-    }
             }
         );
     }
